@@ -41,20 +41,28 @@ Step 3: Import as Dataframe
 """
 
 df = pd.read_excel(filepath, sheet_name=sheetname, parse_dates = ['DateT'], index_col = 'DateT' )
-#df.reset_index(inplace=True)
+
 
 df = df.loc[df.StasName == station, ['MaxTemp (°C)']]
-
+df.reset_index(inplace=True)
 """
 Step 4: Prepare data 
 """
+#
+#df['year'] = df.index.year
+#df['month'] = df.index.month
+#years = df['year'].unique()
 
-df['year'] = df.index.year
-df['month'] = df.index.month
+df['year'] = [d.year for d in pd.to_datetime(df.index)]
+df['month'] = [d.strftime('%b') for d in pd.to_datetime(df.index)]
 years = df['year'].unique()
 
-print(df.head())
 
+print(df.head(20))
+print(years)
+"""
+Step 5: Plot the chart
+"""
 
 # Prep Colors
 np.random.seed(100)
