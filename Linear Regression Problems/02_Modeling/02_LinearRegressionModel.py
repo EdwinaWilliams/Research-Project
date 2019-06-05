@@ -55,8 +55,11 @@ df_filt['MaxTemp (°C)'].fillna(median, inplace=True)
 """
 Step 4 --> Train model and perform predictions uising Linear Regression 
 """
+# convert date to numerical value
+import datetime as dt
+df_filt['DateT'] = pd.to_datetime(df_filt['DateT'])
+df_filt['DateT']=df_filt['DateT'].map(dt.datetime.toordinal)
 # set dependent and independent variables 
-
 X = df_filt['DateT'].values.reshape((-1,1))
 y = df_filt["MaxTemp (°C)"].values
 
@@ -73,4 +76,13 @@ regressor.fit(X_train, y_train)
 y_pred = regressor.predict(X_test)
 print(y_pred)
 
+"""
+Step 5 --> Evaluate model
+"""
 
+print(regressor.coef_)
+print(regressor.intercept_)
+
+#calculate R squared 
+from sklearn.metrics import r2_score
+print(r2_score(y_test, y_pred))
