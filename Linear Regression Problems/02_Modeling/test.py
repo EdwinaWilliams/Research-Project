@@ -25,7 +25,6 @@ Step 2 --> Set variables
 
 filepath = 'C:/Users/egwil/OneDrive - University of Cape Town/UCT/Research/Data/data/ModelTesting.xlsx'
 sheetname = 'Train'
-sheetname1 = 'Test'
 
 """
 Step 2 -->Load dataset 
@@ -47,21 +46,14 @@ print(df)
 Step 4 --> Train model and perform predictions uising Linear Regression 
 """
 
-#X = df['Day'].values.reshape((-1,1))
-#y = df["MaxTemp (°C)"].values.reshape((-1,1))
-#
-#print(X)
-#print(y)
-
-#iloc[:4, :1]
 ##split data into training and test set
-from sklearn.model_selection import train_test_split
+#from sklearn.model_selection import train_test_split
 temp_dataholder = df.index.values.reshape(-1, 1)
-X_train = temp_dataholder[0:30]
-y_train= df.iloc[:30, -1:]
+X_train = temp_dataholder[0:5]
+y_train= df.iloc[:5, -1:]
 ## 
-X_test = temp_dataholder[30:31]
-y_test = df.iloc[30:31:, -1:]
+X_test = temp_dataholder[5:6]
+y_test = df.iloc[5:6:, -1:]
 
 
 print('Training x variabes - Day')
@@ -80,29 +72,51 @@ print(y_test)
 from sklearn.linear_model import LinearRegression
 regressor = LinearRegression()
 regressor.fit(X_train, y_train)
-
+results = regressor.fit(X_train, y_train)
 # predicting the Test set results
 y_pred = regressor.predict(X_test)
 print('Predicted day and predicted variable')
-print(X_test, y_pred)
+r_sq = regressor.score(X_train, y_train)
+print(results.summary())
+print('coefficient of determination:', r_sq)
+print('intercept:',regressor.intercept_)
+print('slope:', regressor.coef_)
 #Export results for further analysis
 
-import xlsxwriter
-workbook = xlsxwriter.Workbook('C:/Users/egwil/OneDrive - University of Cape Town/UCT/Research/Data/data/Analysis.xlsx')
+#import xlsxwriter
+#workbook = xlsxwriter.Workbook('C:/Users/egwil/OneDrive - University of Cape Town/UCT/Research/Data/data/Analysis.xlsx')
+writer = pd.ExcelWriter('C:/Users/egwil/OneDrive - University of Cape Town/UCT/Research/Data/data/Analysis.xlsx', engine='xlsxwriter')
+###starting from frist cell below headers
+#row = 0
+#col = 0
+##Adding workbook sheets
+#worksheet_xdatapoints = workbook.add_worksheet('X_train')
+#worksheet_xdatavalues = workbook.add_worksheet('y_train')
+#worksheet_ydatapoints = workbook.add_worksheet('X_test')
+#worksheet_ydatavalues = workbook.add_worksheet('y_test')
+#worksheet_predvalues = workbook.add_worksheet('Predicted Values')
 
-#starting from frist cell below headers
-row = 1 
-col = 0
-worksheet_xdatapoints = workbook.add_worksheet('X_train')
-worksheet_xdatavalues = workbook.add_worksheet('y_train')
-worksheet_ydatapoints = workbook.add_worksheet('X_test')
-worksheet_ydatavalues = workbook.add_worksheet('y_test')
-worksheet_predvalues = workbook.add_worksheet('y_pred')
+#for item in X_train:
+#    worksheet_xdatapoints.write(row, col,item)
+#    row += 1
+data = {'Predict Day' : [X_test], 'Predict Values': [y_pred] }
+columns = ['Predict Day','Predict Values']
+index = ['1']
+#pred = pd.DataFrame({'Predict Day' : data[:0], 'Predict Values': data[:-1]})   
+#pred = pd.DataFrame(data[1:, 1:], index=data[1:0])   
+pred = pd.DataFrame(data, columns=columns, index=index)   
 
-worksheet_xdatapoints.write(row, 2,'X_train')
+print(pred)
+y_train.to_excel(writer, sheet_name = 'Training Datapoints')
+y_test.to_excel(writer, sheet_name = 'Testing Datapoints')
+pred.to_excel(writer, sheet_name = 'Predicted Values')
+writer.save()
+#for items in y_train:
+#    worksheet_xdatavalues.write(row, col,items)
+#    row += 1
 
 
-workbook.close()
+#workbook.close()
 #"""
 #Step 5 --> Evaluate model
 #"""
