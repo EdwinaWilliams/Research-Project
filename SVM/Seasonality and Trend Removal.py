@@ -29,6 +29,9 @@ pyplot.plot(diff)
 pyplot.show()
 '''
 
+#Code for removing seasonality using monthly averages 
+#Note GAPs are identified between each year need to investigate why 
+
 for i in range(days_in_year, len(X)):
     month_str = str(dataset.index[i].year-1)+'-'+ str(dataset.index[i].month)
     month_mean_last_year = dataset[month_str].mean()
