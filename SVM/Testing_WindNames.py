@@ -4,21 +4,30 @@ Created on Mon Oct 14 18:19:05 2019
 
 @author: egwil
 """
+
+import sklearn as skl
+import numpy as np
+from matplotlib import pyplot as plt
 import pandas as pd
-#start = 0
-#stop = 2
-#wind_num = 1 
-#
-#list = [1, 2, 3, 4, 5]
-#
-#for i in list:
-#    while stop != 11 :
-#        wind_nam = 'w' + str(wind_num)
-#        (print(wind_nam.index)
-#        start += 1 
-#        stop += 1
-#        wind_num += 1 
-#        
-        
-df_windows = pd.DataFrame({'Window Number':0 , 'Window Values':0 })
-df_windows.to_excel(r'C:\Users\egwil\OneDrive\Desktop\Results\SVM Window Test Info.xlsx')
+
+
+#Create workbook for saving results 
+#workbook = xlsxwriter.Workbook('C:/Users/egwil/OneDrive/Desktop/Results/SVM_sw_results.xlsx')
+#worksheet = workbook.add_worksheet('sheet')
+#worksheet.cell(row=1, column=1).value='Window_number'
+
+"""
+Step 2 -->Load dataset 
+""" 
+#Step 2 --> Set variables
+filepath = 'C:/Users/egwil/Dropbox/edwina/scratch/00_Data/rainfall and temperature.xlsx'
+sheetname = 'Rainfall and Temperature'
+
+df_7d = pd.read_excel(filepath, sheet_name=sheetname)
+
+#plt.scatter(X_test,y_test, color = 'red')
+#plt.plot(X_test, y_pred, color = 'blue')
+#plt.title('SVR Regression Model')
+#plt.xlabel('Days')
+#plt.ylabel('Temperature - Max')
+#plt.show
