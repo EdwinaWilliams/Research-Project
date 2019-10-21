@@ -48,10 +48,10 @@ print(temps)
 #print(windows)
 
 start = 0
-stop = 10
-train = 11
+stop = 21
+train = 22
 wind_num = 1 
-X_train = [[0],[1],[2],[3],[4],[5],[6],[7],[8],[9]]
+X_train = [[0],[1],[2],[3],[4],[5],[6],[7],[8],[9],[10],[11],[12],[13],[14],[15],[16],[17],[18],[19],[20]]
 
 from sklearn.svm import SVR
 svregressor = SVR(kernel='rbf')
