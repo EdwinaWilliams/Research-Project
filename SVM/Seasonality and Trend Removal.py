@@ -10,7 +10,9 @@ from matplotlib import pyplot
 filepath = 'C:/Users/egwil/Dropbox/edwina/scratch/00_Data/rainfall and temperature.xlsx'
 sheetname = 'Rainfall and Temperature'
 df = pd.read_excel(filepath, sheet_name=sheetname, index_col = 3)
-dataset = df.iloc[:, 3:4]
+df_filt = df['StasName'] == 'PRETORIA UNISA'
+df_filtered = df[df_filt]
+dataset = df_filtered.iloc[:, 3:4]
 
 X = dataset.values 
 
@@ -28,15 +30,39 @@ for i in range(days_in_year, len(X)):
 pyplot.plot(diff)
 pyplot.show()
 '''
+#Getting the monthly mean
+#resample = dataset.resample('M')
+#monthly_mean = resample.mean()
+#print(monthly_mean.head(13))
+#monthly_mean.plot()
+#pyplot.show()
 
-#Code for removing seasonality using monthly averages 
+#Differencing based on monthly means
+#resample = dataset.resample('M')
+#monthly_mean = resample.mean()
+#X = dataset.values
+#diff = list()
+#months_in_year = 12
+#for i in range(months_in_year, len(monthly_mean)):
+#	value = monthly_mean[i] - monthly_mean[i - months_in_year]
+#	diff.append(value)
+#pyplot.plot(diff)
+#pyplot.show()
+
+#Code for removing seasonality using monthly average 
 #Note GAPs are identified between each year need to investigate why 
+
 
 for i in range(days_in_year, len(X)):
     month_str = str(dataset.index[i].year-1)+'-'+ str(dataset.index[i].month)
     month_mean_last_year = dataset[month_str].mean()
     value = X[i] - month_mean_last_year
     diff.append(value)
+    
+with open("file.txt", "w") as output:
+    output.write(str(diff))
 
+
+print(diff)
 pyplot.plot(diff)
 pyplot.show()

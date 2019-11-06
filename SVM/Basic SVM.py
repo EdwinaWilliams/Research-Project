@@ -49,13 +49,13 @@ df_features = df_features.dropna()
 #print(df_feat.head(5))
 
 df_features.to_excel(r'C:\Users\egwil\OneDrive\Desktop\Results\Full Features.xlsx')
-
+print(df_features)
 """
 Step 4 --> Data exploration 
 """
 
-print(df_features.shape) 
-print(df_features.describe())
+#print(df_features.shape) 
+#print(df_features.describe())
 
 """
 Step 5 --> Data preprocessing 
@@ -69,12 +69,12 @@ Step 5 --> Data preprocessing
 #X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.20)
 
 temp_dataholder = df_features.index.values.reshape(-1, 1)
-X_train = temp_dataholder[0:365]
-y_train= df_features.iloc[:365, -1:]
+X_train = temp_dataholder[0:6208]
+y_train= df_features.iloc[:6208, -1:]
 
-X_test = temp_dataholder[365:370]
-y_test = df_features.iloc[365:370, -1:]
-print(X_train)
+X_test = temp_dataholder[6208:6229]
+y_test = df_features.iloc[6208:6229, -1:]
+
 """
 #Step 6 --> Training and predicting 
 """
@@ -87,14 +87,28 @@ svregressor.fit(X_train, y_train.values.ravel())
 
 #making predictions
 y_pred = svregressor.predict(X_test)
-print(X_test)
-print(y_test)
-print(y_pred)
-#
-##saving results to file 
-#result_df = pd.DataFrame()
-#
-#
+
+#Converting features to dataframes
+p = pd.DataFrame(y_pred )
+ytrain = pd.DataFrame(y_train)
+ytest = pd.DataFrame(y_test)
+
+#k = pd.DataFrame({'p':[ytest], 'l':[p]})
+print(p)
+#print(df_pred)
+        #appending dataframe
+       # df_test = df_test.append(df_windows)
+        #df_pred_vals = df_pred_vals.append(df_pred)
+        
+#print(df_test)
+#print(df_pred_vals)
+#df_windows = pd.DataFrame({'Window Number' :wind_num, 'Window Values': wind_nam[:,0] })
+#df_pred = pd.DataFrame({'Test Value/s' : [y_test], 'Predict Value/s': [np_pred]}) #, })
+        
+ytrain.to_excel(r'C:\Users\egwil\OneDrive\Desktop\Results\21 Day ahead - SVM Window Training Data.xlsx', sheet_name = 'Training Values')
+ytest.to_excel(r'C:\Users\egwil\OneDrive\Desktop\Results\21 Day ahead - SVM Window Testing Data.xlsx' , sheet_name = 'Test Values')
+p.to_excel(r'C:\Users\egwil\OneDrive\Desktop\Results\21 Day ahead - SVM Window Test Results.xlsx', sheet_name = 'Predicted Values')
+
 ##result_df['ID'] = 
 #
 #result_df['Predictions']= y_pred
@@ -110,25 +124,25 @@ print(y_pred)
 #"""
 #
 #MAE
-from sklearn.metrics import mean_absolute_error
-mae = mean_absolute_error(y_test, y_pred)
-print('MAE = ', mae)
-
-#MSE
-from sklearn.metrics import mean_squared_error
-mse = mean_squared_error(y_test, y_pred)
-print('MSE = ',mse)
-
-#RMSE
-from math import sqrt
-rmse = sqrt(mse)
-print('RMSE = ',rmse)
-
-#Visualisations 
-plt.scatter(X_test,y_test, color = 'red')
-plt.plot(X_test, y_pred, color = 'blue')
-plt.title('SVR Regression Model')
-plt.xlabel('Days')
-plt.ylabel('Temperature - Max')
-plt.show
+#from sklearn.metrics import mean_absolute_error
+#mae = mean_absolute_error(y_test, y_pred)
+#print('MAE = ', mae)
+#
+##MSE
+#from sklearn.metrics import mean_squared_error
+#mse = mean_squared_error(y_test, y_pred)
+#print('MSE = ',mse)
+#
+##RMSE
+#from math import sqrt
+#rmse = sqrt(mse)
+#print('RMSE = ',rmse)
+#
+##Visualisations 
+#plt.scatter(X_test,y_test, color = 'red')
+#plt.plot(X_test, y_pred, color = 'blue')
+#plt.title('SVR Regression Model')
+#plt.xlabel('Days')
+#plt.ylabel('Temperature - Max')
+#plt.show
 

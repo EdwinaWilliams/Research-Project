@@ -11,19 +11,12 @@ Step 1 --> Import libraries
 import sklearn as skl
 import numpy as np
 from matplotlib import pyplot as plt
-import pandas as pd
-import xlsxwriter 
-  
-
-#Create workbook for saving results 
-#workbook = xlsxwriter.Workbook('C:/Users/egwil/OneDrive/Desktop/Results/SVM_sw_results.xlsx')
-#worksheet = workbook.add_worksheet('sheet')
-#worksheet.cell(row=1, column=1).value='Window_number'
+import pandas as pd  
 
 """
 Step 2 -->Load dataset 
 """ 
-#Step 2 --> Set variables
+#Set variables
 filepath = 'C:/Users/egwil/Dropbox/edwina/scratch/00_Data/rainfall and temperature.xlsx'
 sheetname = 'Rainfall and Temperature'
 #Import data 
@@ -39,17 +32,18 @@ df_filtered = df[df_filt]
 temps = df_filtered.loc[:,['MaxTemp (°C)']].copy()
 #Removing nan values from dataset
 temps = temps.dropna()
+temps1 = temps.dropna()
 
 temps =temps.iloc[:6623, -1:].values.tolist()  #to_dict()
+t = temps1.iloc[:6623, -1:]
 #windows =  temps.rolling(5).sum() 
 
 #temps = df[temps]
-print(temps)
 #print(windows)
 
 start = 0
 stop = 21
-train = 22
+train = 24
 wind_num = 1 
 X_train = [[0],[1],[2],[3],[4],[5],[6],[7],[8],[9],[10],[11],[12],[13],[14],[15],[16],[17],[18],[19],[20]]
 
@@ -68,7 +62,8 @@ for i in temps:
         #print(wind_nam)
         #while train != 10:
         y_test = np.array(temps[stop:train]).reshape(-1, 1)
-        x_test = np.array(train).reshape(-1, 1)
+        x_test = t[stop:train].index.values.reshape(-1, 1) #np.array(train).reshape(-1, 1)
+        print(x_test)
         svregressor.fit(X_train, wind_nam.ravel())
 
         y_pred = svregressor.predict(x_test)
@@ -92,5 +87,5 @@ for i in temps:
 #df_windows = pd.DataFrame({'Window Number' :wind_num, 'Window Values': wind_nam[:,0] })
 #df_pred = pd.DataFrame({'Test Value/s' : [y_test], 'Predict Value/s': [np_pred]}) #, })
         
-df_test.to_excel(r'C:\Users\egwil\OneDrive\Desktop\Results\SVM Window Test Info.xlsx')
-df_pred_vals.to_excel(r'C:\Users\egwil\OneDrive\Desktop\Results\SVM Window Test Results.xlsx')
+df_test.to_excel(r'C:\Users\egwil\OneDrive\Desktop\Results\3 Day Ahead - SVM Window Test Info.xlsx')
+df_pred_vals.to_excel(r'C:\Users\egwil\OneDrive\Desktop\Results\3 Day Ahead - SVM Window Test Results.xlsx')

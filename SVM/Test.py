@@ -15,30 +15,36 @@ import pandas as pd
 Step 2 -->Load dataset 
 """ 
 #Step 2 --> Set variables
-filepath = 'C:/Users/egwil/Dropbox/edwina/scratch/00_Data/rainfall and temperature.xlsx'
-sheetname = 'Rainfall and Temperature'
+filepath = 'C:/Users/egwil/OneDrive/Desktop/Results/Deseasonalised Temperature Data Pretoria.xlsx'
+#sheetname = 'Rainfall and Temperature'
 #Import data 
-df = pd.read_excel(filepath, sheet_name=sheetname)
+df = pd.read_excel(filepath)  #, sheet_name=sheetname)
 
-"""
-Step 3 --> Data preparation 
-"""
-#Filtering for specific station 
-df_filt = df['StasName'] == 'PRETORIA UNISA'
-df_filtered = df[df_filt]
-df_filtered = df_filtered.dropna()
-#print(df_filtered)
+temps = df.dropna()
 
-temp_dataholder = df_filtered.index.values.reshape(-1, 1)
-day =df_filtered.iloc[:, 3:4] #temp_dataholder[0:365]
-temps= df_filtered.iloc[:, 4:5]
+#print(temps)
 
-print(day)
+temp_dataholder = temps.index.values.reshape(-1, 1)
+X_train = temp_dataholder[0:7]
+y_train= temps.iloc[:7, -1:]
+
+X_test = temp_dataholder[7:9]
+y_test = temps.iloc[7:9, -1:]
+
+#print(y_test)
 #print(y_train)
+"""
+#Step 6 --> Training and predicting 
+"""
 
+#Training model
+from sklearn.svm import SVR
+svregressor = SVR(kernel='rbf')
+svregressor =  SVR(gamma ='auto')
+svregressor.fit(X_train, y_train.values.ravel())
 
-plt.plot(day, temps, color = 'blue')
-plt.title('First Year Temperatures')
-plt.xlabel('Day')
-plt.ylabel('Temperature - Max')
-plt.show
+#making predictions
+y_pred = svregressor.predict(X_test)
+print('Position Number : ', X_test)
+print('Actual value : ' , y_test)
+print('Predicted value : ', y_pred)
