@@ -17,20 +17,24 @@ import pandas as pd
 Step 2 -->Load dataset 
 """ 
 #Set variables
-filepath = (r'C:\Users\egwil\OneDrive\Desktop\Results\01_Missing Values Replaced.xlsx')
+filepath = ('C:/Users/egwil/OneDrive/Desktop/Results/02_Deseasonalised 5 year avg - Processed.xlsx')
 #sheetname = 'Sheet1'
 #Import data 
-df = pd.read_excel(filepath, parse_dates=['DateT'] ) #sheet_name=sheetnamesheet_name=sheetname
+df = pd.read_excel(filepath , parse_dates=['Current Date']) #sheet_name=sheetnamesheet_name=sheetname, 
+df_filt =  (df['Current Date'] >= '2003-01-01')
+df_filtered = df[df_filt]
 
-print(df)
 """
 Step 3 -->Feature selection 
 """ 
 
-t_list =df.iloc[:, 4:5].values.tolist()  
-t_df = df.iloc[:, 4:5]
+iterate = df_filtered.index.values.reshape(-1, 1)
+x_values = df_filtered.iloc[:, 2:3]
+#t_list =df.iloc[:, 0:1].index.tolist()  
+#t_df = df.iloc[:, 0:1]
+#test = pd.to_datetime(t_df.iloc[:, :].values.tolist())
 
-#print(t)
+print(iterate)
 
 """
 Step 4 -->Setting window variables / dataframes
@@ -58,14 +62,14 @@ svregressor =  SVR(gamma ='auto')
 """
 Step 6 -->Creating window and performing predictions
 """ 
-for i in t_list:
+for i in iterate:
     while stop != 876: 
         wind_nam = 'w' + str(wind_num)
-        temp = t_list[start:stop]
+        temp = x_values[start:stop]
         wind_nam = np.array(temp)
 
-        y_test = np.array(t_list[stop:train]).reshape(-1, 1)
-        x_test = t_df[stop:train].index.values.reshape(-1, 1) #np.array(train).reshape(-1, 1)
+        y_test = np.array(x_values[stop:train]).reshape(-1, 1)
+        x_test = iterate[stop:train]  #.index.values.reshape(-1, 1) #np.array(train).reshape(-1, 1)
   
         svregressor.fit(X_train, wind_nam.ravel())
 
@@ -90,34 +94,16 @@ for i in t_list:
 Step 7 -->Exporting data
 """ 
 
-df_test.to_excel(r'C:\Users\egwil\OneDrive\Desktop\Results\New SVM Window Test Info.xlsx')
-df_pred_vals.to_excel(r'C:\Users\egwil\OneDrive\Desktop\Results\New SVM Window Test Results.xlsx')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#df_test.to_excel(r'C:\Users\egwil\OneDrive\Desktop\Results\New SVM Window Test Info.xlsx')
+#df_pred_vals.to_excel(r'C:\Users\egwil\OneDrive\Desktop\Results\New SVM Window Test Results.xlsx')
+#
 
 
 """
 Step 3 --> Visualisation
 """ 
 
+print(df_pred_vals)
 #fig = plt.figure(1)
 #ax1 = fig.add_subplot(111)
 #ax1.set_xlabel('DateT')
