@@ -23,33 +23,22 @@ from sklearn.metrics import confusion_matrix
 Step 2 --> Set variables
 """ 
 
-filepath = 'C:/Users/egwil/Dropbox/edwina/scratch/00_Data/rainfall and temperature.xlsx'
-sheetname = 'Rainfall and Temperature'
+filepath = 'C:/Users/egwil/Dropbox/edwina/scratch/02_SVM/JHB Testing/000_Dataset/02_Deseasonalised 5 year avg - Processed JHB.xlsx'
+#sheetname = 'Rainfall and Temperature'
 
 """
 Step 2 -->Load dataset 
 """ 
 
-df = pd.read_excel(filepath, sheet_name=sheetname)
+df = pd.read_excel(filepath)  #, sheet_name=sheetname)
 
 """
 Step 3 --> subset selection
 """
-
-#Filtering for specific station 
-df_filter = df['StasName'] == 'PRETORIA UNISA'
-df_filtered = df[df_filter]
-
-#Getting desired feature
-
-df_features = df_filtered.loc[:,['MaxTemp (°C)']].copy()
-#Removing nan values from dataset
-df_features = df_features.dropna()
-#df_features['ID'] = range(1, len(df_features) + 1)
-#print(df_feat.head(5))
-
-df_features.to_excel(r'C:\Users\egwil\OneDrive\Desktop\Results\Full Features.xlsx')
+#
+df_features = df.loc[:,['Deseasonalised MaxTemp']].copy()
 print(df_features)
+
 """
 Step 4 --> Data exploration 
 """
@@ -57,23 +46,23 @@ Step 4 --> Data exploration
 #print(df_features.shape) 
 #print(df_features.describe())
 
-"""
-Step 5 --> Data preprocessing 
-"""
-#selecting the features
-#X = df_features.drop('MaxTemp (°C)', axis=1)
-#y = df_features['MaxTemp (°C)']
+#"""
+#Step 5 --> Data preprocessing 
+#"""
+##selecting the features
+##X = df_features.drop('MaxTemp (°C)', axis=1)
+##y = df_features['MaxTemp (°C)']
+##
+###Splitting the data for training and test
+##from sklearn.model_selection import train_test_split
+##X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.20)
 #
-##Splitting the data for training and test
-#from sklearn.model_selection import train_test_split
-#X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.20)
-
 temp_dataholder = df_features.index.values.reshape(-1, 1)
-X_train = temp_dataholder[0:6208]
-y_train= df_features.iloc[:6208, -1:]
+X_train = temp_dataholder[0:5748]
+y_train= df_features.iloc[:5748, -1:]
 
-X_test = temp_dataholder[6208:6229]
-y_test = df_features.iloc[6208:6229, -1:]
+X_test = temp_dataholder[5748:7185]
+y_test = df_features.iloc[5748:7185, -1:]
 
 """
 #Step 6 --> Training and predicting 
@@ -88,13 +77,44 @@ svregressor.fit(X_train, y_train.values.ravel())
 #making predictions
 y_pred = svregressor.predict(X_test)
 
-#Converting features to dataframes
-p = pd.DataFrame(y_pred )
-ytrain = pd.DataFrame(y_train)
-ytest = pd.DataFrame(y_test)
 
-#k = pd.DataFrame({'p':[ytest], 'l':[p]})
-print(p)
+#Getting performance scores
+from sklearn.metrics import mean_absolute_error
+from sklearn.metrics import mean_squared_error
+
+
+print("Mean Absolute Error : ", mean_absolute_error(y_test,y_pred))
+print("Mean Squared Error : ", mean_squared_error(y_test,y_pred))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+##Converting features to dataframes
+#p = pd.DataFrame(y_pred )
+#ytrain = pd.DataFrame(y_train)
+#ytest = pd.DataFrame(y_test)
+#
+##k = pd.DataFrame({'p':[ytest], 'l':[p]})
+#print(p)
 #print(df_pred)
         #appending dataframe
        # df_test = df_test.append(df_windows)
@@ -105,10 +125,11 @@ print(p)
 #df_windows = pd.DataFrame({'Window Number' :wind_num, 'Window Values': wind_nam[:,0] })
 #df_pred = pd.DataFrame({'Test Value/s' : [y_test], 'Predict Value/s': [np_pred]}) #, })
         
-ytrain.to_excel(r'C:\Users\egwil\OneDrive\Desktop\Results\21 Day ahead - SVM Window Training Data.xlsx', sheet_name = 'Training Values')
-ytest.to_excel(r'C:\Users\egwil\OneDrive\Desktop\Results\21 Day ahead - SVM Window Testing Data.xlsx' , sheet_name = 'Test Values')
-p.to_excel(r'C:\Users\egwil\OneDrive\Desktop\Results\21 Day ahead - SVM Window Test Results.xlsx', sheet_name = 'Predicted Values')
-
+#ytrain.to_excel(r'C:\Users\egwil\OneDrive\Desktop\Results\21 Day ahead - SVM Window Training Data.xlsx', sheet_name = 'Training Values')
+#ytest.to_excel(r'C:\Users\egwil\OneDrive\Desktop\Results\21 Day ahead - SVM Window Testing Data.xlsx' , sheet_name = 'Test Values')
+#p.to_excel(r'C:\Users\egwil\OneDrive\Desktop\Results\21 Day ahead - SVM Window Test Results.xlsx', sheet_name = 'Predicted Values')
+#print("Mean Absolute Error : ", mean_absolute_error(y_true,y_pred))
+#print("Mean Squared Error : ", mean_squared_error(y_true,y_pred))
 ##result_df['ID'] = 
 #
 #result_df['Predictions']= y_pred

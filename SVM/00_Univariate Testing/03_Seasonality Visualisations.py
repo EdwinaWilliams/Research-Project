@@ -25,9 +25,10 @@ stationary_temp = df_filtered.iloc[:, 2:3].values
 date = df_filtered.iloc[:, 0:1].values
 
 plt.plot(date, temperatures, label="Actual Temperatures")
-plt.plot(date, stationary_temp, label = "Stationary Temperatures")
-plt.legend(loc='top right')
-plt.title('Original Temperatures vs Stationary Temperatures')
+#plt.plot(date, stationary_temp, label = "Stationary Temperatures")
+plt.legend(loc='top right', prop={'size': 15})
+
+plt.title('Original Temperatures') #vs Stationary Temperatures')
 plt.xlabel('Date')
 plt.ylabel('Maximum Temperatures')
 plt.show

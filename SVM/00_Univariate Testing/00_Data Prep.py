@@ -6,6 +6,14 @@ Created on Thu Oct 31 18:00:36 2019
 """
 
 """
+1.	Identify missing values 
+2.	Using interpolate function get the average for the day before and the day after missing point 
+3.	Populate missing value with average 
+4.	Iterate over dataset until all points are populated
+
+"""
+
+"""
 Step 1 --> Import libraries
 """
 import sklearn as skl
@@ -30,7 +38,7 @@ NOTE: The periods between 1999-01-01 till 2001-12-31
 contains alot of missing months data 
 removed the entire data between these values
 """
-df_filt = (df['StasName'] == 'PRETORIA UNISA') & (df['DateT'] >= '2002-01-01')
+df_filt = df['StasName'] == 'POSTMASBURG' #& (df['DateT'] >= '2002-01-01')
 df_filtered = df[df_filt]
 
 #Creating new dataframe after data has been removed
@@ -45,6 +53,6 @@ df_intplte = df_new.interpolate(method ='time')
 print(df_intplte)
 
 #Export results 
-df_filtered.to_excel(r'C:\Users\egwil\Dropbox\edwina\scratch\02_SVM\Pretoria Testing\00_Original Dataset\00_Original Dataset.xlsx')
-df_intplte.to_excel(r'C:\Users\egwil\Dropbox\edwina\scratch\02_SVM\Pretoria Testing\00_Original Dataset\01_Missing Values Replaced')
+df_filtered.to_excel(r'C:\Users\egwil\Dropbox\edwina\scratch\02_SVM\PMB Testing\00_Original Dataset.xlsx')
+df_intplte.to_excel(r'C:\Users\egwil\Dropbox\edwina\scratch\02_SVM\PMB Testing\01_Missing Values Replaced.xlsx')
 

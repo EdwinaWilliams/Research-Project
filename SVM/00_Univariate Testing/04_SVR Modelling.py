@@ -21,7 +21,7 @@ filepath = ('C:/Users/egwil/OneDrive/Desktop/Results/02_Deseasonalised 5 year av
 #sheetname = 'Sheet1'
 #Import data 
 df = pd.read_excel(filepath , parse_dates=['Current Date']) #sheet_name=sheetnamesheet_name=sheetname, 
-df_filt =  (df['Current Date'] >= '2003-01-01')
+df_filt =  (df['Current Date'] >= '2000-01-01')
 df_filtered = df[df_filt]
 
 """
@@ -94,16 +94,16 @@ for i in iterate:
 Step 7 -->Exporting data
 """ 
 
-#df_test.to_excel(r'C:\Users\egwil\OneDrive\Desktop\Results\New SVM Window Test Info.xlsx')
-#df_pred_vals.to_excel(r'C:\Users\egwil\OneDrive\Desktop\Results\New SVM Window Test Results.xlsx')
-#
+df_test.to_excel(r'C:\Users\egwil\OneDrive\Desktop\Results\New SVM Window Test Info.xlsx')
+df_pred_vals.to_excel(r'C:\Users\egwil\OneDrive\Desktop\Results\New SVM Window Test Results.xlsx')
+
 
 
 """
 Step 3 --> Visualisation
 """ 
 
-print(df_pred_vals)
+#print(df_pred_vals)
 #fig = plt.figure(1)
 #ax1 = fig.add_subplot(111)
 #ax1.set_xlabel('DateT')

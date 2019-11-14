@@ -35,14 +35,14 @@ for i in index:
     #current variables 
     df_current_dt = df.iloc[i:k, 0:1]
     d0 = df_current_dt.iloc[0].values
-    df_current_tmp = df.iloc[i:k, 4:5] 
+    df_current_tmp = df.iloc[i:k, 6:7] 
     t0 = df_current_tmp.values#.reshape(-1, 1)
     #print(kkkll)
     #***********************************************************************************
     #First Year Prior
     #***********************************************************************************
     #Getting values 
-    date1 = df.iloc[i:k, 7:8]
+    date1 = df.iloc[i:k, 10:11]
     d1 = date1.iloc[0].values
     year1 = date1['Year1'].map(lambda x: x.year)
     #y1= year1.item()
@@ -60,7 +60,7 @@ for i in index:
     #Second Year Prior
     #***********************************************************************************
     #Getting values 
-    date2 = df.iloc[i:k, 8:9]
+    date2 = df.iloc[i:k, 11:12]
     d2 = date2.iloc[0].values
     year2 = date2['Year2'].map(lambda x: x.year)
     month2 = date2['Year2'].map(lambda x: x.month)
@@ -74,7 +74,7 @@ for i in index:
     #Third Year Prior
     #***********************************************************************************
     #Getting values 
-    date3 = df.iloc[i:k, 9:10]
+    date3 = df.iloc[i:k, 12:13]
     d3= date3.iloc[0].values
     year3 = date3['Year3'].map(lambda x: x.year)
     month3 = date3['Year3'].map(lambda x: x.month)
@@ -88,7 +88,7 @@ for i in index:
     #Fourth Year Prior
     #***********************************************************************************
     #Getting values 
-    date4 = df.iloc[i:k, 10:11]
+    date4 = df.iloc[i:k, 13:14]
     d4 = date4.iloc[0].values
     year4 = date4['Year4'].map(lambda x: x.year)
     month4 = date4['Year4'].map(lambda x: x.month)
@@ -102,7 +102,7 @@ for i in index:
     #Fifth Year Prior
     #***********************************************************************************
     #Getting values 
-    date5 = df.iloc[i:k, 11:12]
+    date5 = df.iloc[i:k, 14:15]
     d5 = date5.iloc[0].values
     year5 = date5['Year5'].map(lambda x: x.year)
     month5 = date5['Year5'].map(lambda x: x.month)
@@ -118,5 +118,5 @@ for i in index:
     gather = pd.DataFrame({'Current Date' :[d0],'Current MaxTemp' : [t0], 'Y1 Prev Date': [d1], 'Y1 Prev Temp': [t1]   , 'Y2 Prev Date': [d2], 'Y2 Prev Temp': [t2] , 'Y3 Prev Date': [d3], 'Y3 Prev Temp': [t3], 'Y4 Prev Date': [d4], 'Y4 Prev Temp': [t4] , 'Y5 Prev Date': [d5], 'Y5 Prev Temp': [t5] }) 
     combine = combine.append(gather)
 
-combine.to_excel(r'C:\Users\egwil\OneDrive\Desktop\tmpDir\5_year_Avg_Pretoria.xlsx')
+combine.to_excel(r'C:\Users\egwil\OneDrive\Desktop\tmpDir\5_year_Avg_PMB.xlsx')
    

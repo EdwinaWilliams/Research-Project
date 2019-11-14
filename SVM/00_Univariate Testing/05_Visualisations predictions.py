@@ -9,6 +9,7 @@ Created on Sat Nov  9 21:08:03 2019
 from matplotlib import pyplot as plt
 import pandas as pd  
 
+plt.rcParams.update({'font.size': 22})
 #Importing data 
 filepath = ('C:/Users/egwil/OneDrive/Desktop/Results/New SVM Window Test Results Formatted.xlsx')
 
@@ -26,7 +27,7 @@ window = df.iloc[:, 0:1].values
 plt.plot(window, maxtemp_actual, label="Actual Value")
 plt.plot(window, maxtemp_pred, label = "Predicted Value")
 #plt.plot(window, maxtemp, color = 'red')
-plt.legend(loc='top right')
+plt.legend(loc='top right', prop={'size': 22})
 plt.title('Predictions vs Actual Values')
 plt.xlabel('Window')
 plt.ylabel('Maximum Temperatures')

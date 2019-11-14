@@ -29,13 +29,15 @@ print(df_filtered)
 
 from sklearn.linear_model import HuberRegressor, LinearRegression
 from sklearn.datasets import make_regression
-rng = np.random.RandomState(0)
 
-X, y, coef = make_regression(n_samples = 5769, n_features = 1 , noise = 4.0, coef = True, random_state = 0)
-
-X = df_filtered.index.values.reshape(-1, 1)
+X_tmp = df_filtered.index.values.reshape(-1, 1)
+X = X_tmp[:]
 y = df_filtered.iloc[:, 2:3] #[:4] = rng.uniform(10, 20,4)
 
-huber = HuberRegressor().fit(X, y)
+huber = HuberRegressor().fit(X, y.values.ravel())
 
 print(huber.score(X, y) )
+
+huber.predict(X[:1, ])
+
+print("Huber coefficients:", huber.coef_)
